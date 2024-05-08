@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>新增文档 - 光年(Light Year Admin)后台管理系统模板</title>
     <link rel="icon" href="favicon.ico" type="image/ico">
     <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
@@ -36,61 +36,78 @@
                         <div class="card">
                             <div class="card-body">
 
-                                <form action="/movie/save" method="post" class="row">
+                                <form action="/movie/update" method="post" class="row">
+
+                                    <input type="hidden" name="id" th:value="${movie.id}">
 
                                     <div class="form-group col-md-12">
                                         <label for="movieName">电影名</label>
-                                        <input type="text" class="form-control" id="movieName" name="movieName" value="" placeholder="请输入电影名" />
+                                        <input type="text" class="form-control" id="movieName" name="movieName"
+                                               th:value="${movie.movieName}" placeholder="请输入电影名"/>
                                     </div>
 
                                     <div class="form-group col-md-12">
                                         <label for="movieImage">电影封面图</label>
-                                        <input type="text" class="form-control" id="movieImage" name="movieImage" value="" placeholder="请输入电影封面图" />
+                                        <input type="text" class="form-control" id="movieImage" name="movieImage"
+                                               th:value="${movie.movieImage}" placeholder="请输入电影封面图"/>
                                     </div>
 
                                     <div class="form-group col-md-12">
                                         <label for="movieBoxOffice">票房</label>
-                                        <input type="number" class="form-control" id="movieBoxOffice" name="movieBoxOffice" value="" placeholder="请输入票房" />
+                                        <input type="number" class="form-control" id="movieBoxOffice"
+                                               name="movieBoxOffice" th:value="${movie.movieBoxOffice}"
+                                               placeholder="请输入票房"/>
                                     </div>
 
                                     <div class="form-group col-md-12">
                                         <label for="movieLanguage">电影语言</label>
-                                        <input type="text" class="form-control" id="movieLanguage" name="movieLanguage" value="" placeholder="请输入电影语言" />
+                                        <input type="text" class="form-control" id="movieLanguage" name="movieLanguage"
+                                               th:value="${movie.movieLanguage}" placeholder="请输入电影语言"/>
                                     </div>
 
                                     <div class="form-group col-md-12">
                                         <label for="movieDate">电影上映时间</label>
                                         <!--                                        <input type="text" class="form-control" id="movieDate" name="movieDate" value="" placeholder="请输入电影上映时间" />-->
 
-                                        <input type="date" class="form-control" id="movieDate" name="movieDate" value="" placeholder="请输入电影上映时间" >
+                                        <input type="date" class="form-control" id="movieDate" name="movieDate"
+                                               placeholder="请输入电影上映时间">
 
                                     </div>
 
                                     <div class="form-group col-md-12">
                                         <label for="movieTimeTotal">电影时间长度</label>
-                                        <input type="number" class="form-control" id="movieTimeTotal" name="movieTimeTotal" value="" placeholder="请输入电影时间长度" />
+                                        <input type="number" class="form-control" id="movieTimeTotal"
+                                               name="movieTimeTotal" th:value="${movie.movieTimeTotal}"
+                                               placeholder="请输入电影时间长度"/>
                                     </div>
 
                                     <div class="form-group col-md-12">
                                         <label for="movieScore">电影评分</label>
-                                        <input type="number" class="form-control" id="movieScore" name="movieScore" value="" placeholder="请输入电影评分" />
+                                        <input type="number" class="form-control" id="movieScore" name="movieScore"
+                                               th:value="${movie.movieScore}" placeholder="请输入电影评分"/>
                                     </div>
 
 
                                     <div class="form-group col-md-12">
-                                        <label for="movieType">电影类型	</label>
-                                        <input type="text" class="form-control" id="movieType" name="movieType" value="" placeholder="请输入电影类型" />
+                                        <label for="movieType">电影类型 </label>
+                                        <input type="text" class="form-control" id="movieType" name="movieType"
+                                               th:value="${movie.movieType}" placeholder="请输入电影类型"/>
                                     </div>
 
                                     <div class="form-group col-md-12">
-                                        <label for="movieDesc">电影简介	</label>
-                                        <input type="text" class="form-control" id="movieDesc" name="movieDesc" value="" placeholder="请输入电影简介" />
+                                        <label for="movieDesc">电影简介 </label>
+                                        <input type="text" class="form-control" id="movieDesc" name="movieDesc"
+                                               th:value="${movie.movieDesc}" placeholder="请输入电影简介"/>
                                     </div>
 
 
                                     <div class="form-group col-md-12">
-                                        <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">确 定</button>
-                                        <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">返 回</button>
+                                        <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">确
+                                            定
+                                        </button>
+                                        <button type="button" class="btn btn-default"
+                                                onclick="javascript:history.back(-1);return false;">返 回
+                                        </button>
                                     </div>
                                 </form>
 
@@ -113,5 +130,15 @@
 <!--标签插件-->
 <script src="/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
 <script type="text/javascript" src="/js/main.min.js"></script>
+<script th:inline="javascript">
+    var serverDate = /*[[${movie.movieDate}]]*/ '';
+    if (serverDate && serverDate.length > 10) {
+        // 注意：这里只是简单地截取了前10个字符，但这样可能不是一个有效的日期格式
+        var truncatedDate = serverDate.substring(0, 10);
+        document.getElementById('movieDate').valueAsDate = new Date(truncatedDate); // 这可能失败，因为truncatedDate可能不是有效的日期字符串
+        // 如果需要设置input的显示值（但这不是推荐的做法，因为type="date"的input应该处理日期对象）
+        // document.getElementById('movieDate').setAttribute('value', truncatedDate);
+    }
+</script>
 </body>
 </html>

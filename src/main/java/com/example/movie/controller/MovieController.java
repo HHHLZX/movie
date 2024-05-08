@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MovieController {
@@ -69,6 +70,47 @@ public class MovieController {
             @RequestParam int id
     ) {
         this.movieRepository.deleteById(id);
+        return "redirect:/movie/index";
+    }
+
+    @GetMapping("/movie/edit")
+    public String edit(
+            @RequestParam int id,
+            Model model
+    ) {
+        Optional<Movie> m = this.movieRepository.findById(id);
+        Movie movie = m.orElse(new Movie());
+        model.addAttribute("movie", movie);
+        return "movie/edit";
+    }
+
+    @PostMapping("/movie/update")
+    public String update(
+            @RequestParam int id,
+            @RequestParam String movieName,
+            @RequestParam String movieImage,
+            @RequestParam String movieBoxOffice,
+            @RequestParam String movieLanguage,
+            @RequestParam Date movieDate,
+            @RequestParam int movieTimeTotal,
+            @RequestParam float movieScore,
+            @RequestParam String movieType,
+            @RequestParam String movieDesc) {
+        Optional<Movie> m = this.movieRepository.findById(id);
+        Movie movie = m.orElse(null);
+        if (movie == null) {
+            movie = new Movie();
+        }
+        movie.setMovieName(movieName);
+        movie.setMovieImage(movieImage);
+        movie.setMovieBoxOffice(movieBoxOffice);
+        movie.setMovieLanguage(movieLanguage);
+        movie.setMovieDate(movieDate);
+        movie.setMovieTimeTotal(movieTimeTotal);
+        movie.setMovieScore(movieScore);
+        movie.setMovieType(movieType);
+        movie.setMovieDesc(movieDesc);
+        this.movieRepository.save(movie);
         return "redirect:/movie/index";
     }
 }
