@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>新增文档 - 光年(Light Year Admin)后台管理系统模板</title>
+    <link rel="icon" href="favicon.ico" type="image/ico">
+    <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
+    <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+    <meta name="author" content="yinqi">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+    <!--标签插件-->
+    <link rel="stylesheet" href="/js/jquery-tags-input/jquery.tagsinput.min.css">
+    <link href="/css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <!--左侧导航-->
+        <div th:replace="~{public/sidebar::sidebar}"></div>
+        <!--End 左侧导航-->
+
+        <!--头部信息-->
+        <div th:replace="~{public/header::header}"></div>
+        <!--End 头部信息-->
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <form action="/user/update" method="post" class="row">
+
+                                    <input type="hidden" name="id" th:value="${user.id}">
+
+                                    <div class="form-group col-md-12">
+                                        <label for="userName">用户名</label>
+                                        <input type="text" class="form-control" id="userName" name="userName"
+                                               th:value="${user.userName}" placeholder="请输入用户名"/>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label for="userTelephone">用户手机号</label>
+                                        <input type="number" class="form-control" id="userTelephone"
+                                               name="userTelephone" th:value="${user.userTelephone}"
+                                               placeholder="请输入手机号"/>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="userPassword">用户密码</label>
+                                        <input type="text" class="form-control" id="userPassword"
+                                               name="userPassword" th:value="${user.userPassword}"
+                                               placeholder="请输入手机号"/>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="userStatus">用户状态</label>
+                                        <select class="form-control" id="userStatus" name="userStatus">
+                                            <option value="0"
+                                                    th:selected="${#strings.toString(user.userStatus) == 'false'}">false
+                                            </option>
+                                            <option value="1"
+                                                    th:selected="${#strings.toString(user.userStatus) == 'true'}">true
+                                            </option>
+                                        </select>
+
+                                        <label for="userAddtime">用户注册时间</label>
+                                        <input type="text" class="form-control" id="userAddtime" disabled
+                                               name="userAddtime" th:value="${user.userAddtime}"
+                                               placeholder="请输入首次添加用户时间"/>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label for="userLasteditTime">最后一次更改用户时间</label>
+                                        <input type="text" class="form-control" id="userLasteditTime" disabled
+                                               name="userLasteditTime" th:value="${user.userLasteditTime}"
+                                               placeholder="请输入最后一次更改用户时间"/>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <button type="submit" class="btn btn-primary ajax-post" target-form="add-form">确
+                                            定
+                                        </button>
+                                        <button type="button" class="btn btn-default"
+                                                onclick="javascript:history.back(-1);return false;">返 回
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"></script>
+<!--标签插件-->
+<script src="/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
+<script type="text/javascript" src="/js/main.min.js"></script>
+<script th:inline="javascript">
+    var serverDate = /*[[${user.userAddtime}]]*/ '';
+    if (serverDate && serverDate.length > 10) {
+        // 注意：这里只是简单地截取了前10个字符，但这样可能不是一个有效的日期格式
+        var trunuserAddtime = serverDate.substring(0, 10);
+        document.getElementById('movieDate').valueAsDate = new Date(truncatedDate); // 这可能失败，因为truncatedDate可能不是有效的日期字符串
+        // 如果需要设置input的显示值（但这不是推荐的做法，因为type="date"的input应该处理日期对象）
+        // document.getElementById('movieDate').setAttribute('value', truncatedDate);
+    }
+</script>
+</body>
+</html>
