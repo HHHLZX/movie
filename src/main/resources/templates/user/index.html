@@ -92,7 +92,7 @@
                                             <td th:text="${user.userName}"></td>
                                             <td th:text="${user.userTelephone}"></td>
                                             <td th:text="${user.userPassword}"></td>
-                                            <td th:text="${user.userStatus}"></td>
+                                            <td th:text=${user.userStatus}==true?正常:封禁></td>
                                             <td th:text="${user.getUserAddtime()}"></td>
                                             <td th:text="${user.getUserLasteditTime()}"></td>
 

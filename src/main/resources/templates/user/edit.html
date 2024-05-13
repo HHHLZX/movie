@@ -62,13 +62,14 @@
                                         <label for="userStatus">用户状态</label>
                                         <select class="form-control" id="userStatus" name="userStatus">
                                             <option value="0"
-                                                    th:selected="${#strings.toString(user.userStatus) == 'false'}">false
+                                                    th:selected="${#strings.toString(user.userStatus) == 'false'}">封禁
                                             </option>
                                             <option value="1"
-                                                    th:selected="${#strings.toString(user.userStatus) == 'true'}">true
+                                                    th:selected="${#strings.toString(user.userStatus) == 'true'}">正常
                                             </option>
                                         </select>
-
+                                    </div>
+                                    <div class="form-group col-md-12">
                                         <label for="userAddtime">用户注册时间</label>
                                         <input type="text" class="form-control" id="userAddtime" disabled
                                                name="userAddtime" th:value="${user.userAddtime}"
@@ -111,15 +112,5 @@
 <!--标签插件-->
 <script src="/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
 <script type="text/javascript" src="/js/main.min.js"></script>
-<script th:inline="javascript">
-    var serverDate = /*[[${user.userAddtime}]]*/ '';
-    if (serverDate && serverDate.length > 10) {
-        // 注意：这里只是简单地截取了前10个字符，但这样可能不是一个有效的日期格式
-        var trunuserAddtime = serverDate.substring(0, 10);
-        document.getElementById('movieDate').valueAsDate = new Date(truncatedDate); // 这可能失败，因为truncatedDate可能不是有效的日期字符串
-        // 如果需要设置input的显示值（但这不是推荐的做法，因为type="date"的input应该处理日期对象）
-        // document.getElementById('movieDate').setAttribute('value', truncatedDate);
-    }
-</script>
 </body>
 </html>
