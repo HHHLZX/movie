@@ -1,7 +1,7 @@
 package com.example.movie.controller;
 
 import com.example.movie.entity.Movie;
-import com.example.movie.entity.repository.MovieRepository;
+import com.example.movie.repository.MovieRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

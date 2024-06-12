@@ -1,5 +1,4 @@
 package com.example.movie.entity;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,64 +8,36 @@ import java.time.LocalDateTime;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String userName;
-    private String userTelephone;
+    private int id;
+
+    private String userPhone;
+
     private String userPassword;
-    private boolean userStatus;
-    private LocalDateTime userAddtime;
-    private LocalDateTime userLasteditTime;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", userTelephone='" + userTelephone + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userStatus=" + userStatus +
-                ", userAddtime=" + userAddtime +
-                ", userLasteditTime=" + userLasteditTime +
-                '}';
-    }
+    private String userNickName;
 
-    public User(Integer id, String userName, String userTelephone, String userPassword, boolean userStatus, LocalDateTime userAddtime, LocalDateTime userLasteditTime) {
-        this.id = id;
-        this.userName = userName;
-        this.userTelephone = userTelephone;
-        this.userPassword = userPassword;
-        this.userStatus = userStatus;
-        this.userAddtime = userAddtime;
-        this.userLasteditTime = userLasteditTime;
-    }
+    private LocalDateTime created_at;
 
     public User() {
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getUserTelephone() {
-        return userTelephone;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setUserTelephone(String userTelephone) {
-        this.userTelephone = userTelephone;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public String getUserPassword() {
@@ -77,27 +48,30 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public boolean isUserStatus() {
-        return userStatus;
+    public String getUserNickName() {
+        return userNickName;
     }
 
-    public void setUserStatus(boolean userStatus) {
-        this.userStatus = userStatus;
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
     }
 
-    public LocalDateTime getUserLasteditTime() {
-        return userLasteditTime;
+    public LocalDateTime getCreated_at() {
+        return created_at;
     }
 
-    public void setUserLasteditTime(LocalDateTime userLasteditTime) {
-        this.userLasteditTime = userLasteditTime;
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 
-    public LocalDateTime getUserAddtime() {
-        return userAddtime;
-    }
-
-    public void setUserAddtime(LocalDateTime userAddtime) {
-        this.userAddtime = userAddtime;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userPhone='" + userPhone + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userNickName='" + userNickName + '\'' +
+                ", created_at=" + created_at +
+                '}';
     }
 }
