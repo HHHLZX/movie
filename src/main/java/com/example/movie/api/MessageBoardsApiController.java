@@ -2,6 +2,7 @@ package com.example.movie.api;
 
 import com.example.movie.entity.MessageBoards;
 import com.example.movie.repository.MessageBoardsRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,13 +18,27 @@ public class MessageBoardsApiController {
         this.messageBoardsRepository = messageBoardsRepository;
     }
 
-    //新建
+    // 新建
     @PostMapping("/api/messageBoards/create")
     public HashMap<String, Object> create(
-            @RequestParam int userId,
-            @RequestParam String content
-
+            @RequestParam String content,
+            HttpSession session
     ) {
+        
+        Integer userId = (Integer) session.getAttribute("userId");
+        String s_id = session.getId();
+
+        System.out.println("Session ID: " + s_id);
+        System.out.println("User ID: " + userId);
+
+        HashMap<String, Object> res = new HashMap<>();
+        if (userId == null) {
+            res.put("code", 401);
+            res.put("message", "未登录");
+            res.put("data", null);
+            return res;
+        }
+
         MessageBoards messageBoards = new MessageBoards();
         messageBoards.setUserId(userId);
         messageBoards.setContent(content);
@@ -31,7 +46,6 @@ public class MessageBoardsApiController {
 
         this.messageBoardsRepository.save(messageBoards);
 
-        HashMap<String, Object> res = new HashMap<>();
         res.put("code", 0);
         res.put("message", "success");
         res.put("data", null);
@@ -50,12 +64,12 @@ public class MessageBoardsApiController {
         return res;
     }
 
+    // 删除
     @DeleteMapping("/api/messageBoards/delete")
-    public HashMap<String, Object> delete(
-            @RequestParam int id) {
+    public HashMap<String, Object> delete(@RequestParam int id) {
         HashMap<String, Object> res = new HashMap<>();
-        //1. 查询
-        Optional<MessageBoards>byId=this.messageBoardsRepository.findById(id);
+        // 查询
+        Optional<MessageBoards> byId = this.messageBoardsRepository.findById(id);
         MessageBoards messageBoards = byId.orElse(null);
         if (messageBoards == null) {
             res.put("code", 404);
@@ -63,7 +77,7 @@ public class MessageBoardsApiController {
             res.put("data", null);
             return res;
         }
-        //2. 修改删除时间
+        // 修改删除时间
         messageBoards.setDeleteDateTime(LocalDateTime.now());
         this.messageBoardsRepository.save(messageBoards);
         res.put("code", 0);
@@ -71,5 +85,4 @@ public class MessageBoardsApiController {
         res.put("data", null);
         return res;
     }
-
 }

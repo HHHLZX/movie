@@ -2,6 +2,8 @@ package com.example.movie.controller;
 
 import com.example.movie.entity.User;
 import com.example.movie.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +21,13 @@ public class LoginController {
         this.userRepository = userRepository;
     }
 
-
     @PostMapping("/api/login")
     public HashMap<String, Object> login(
             @RequestParam String userPhone,
             @RequestParam String userPassword,
-            HttpSession session
+            HttpSession session,
+            HttpServletResponse response // 自动注入 HttpServletResponse
     ) {
-
         HashMap<String, Object> res = new HashMap<>();
         if (userPhone.isEmpty() || userPassword.isEmpty()) {
             res.put("code", 2001);
@@ -35,36 +36,41 @@ public class LoginController {
             return res;
         }
 
-
-        HashMap<String, Object> res1 = new HashMap<String, Object>();
-
         // 查询用户
         User byUserPhone = this.userRepository.findByUserPhone(userPhone);
         if (byUserPhone == null) {
-            res1.put("code", 2001);
-            res1.put("message", "手机号码尚未注册");
-            res1.put("data", userPhone);
-            return res1;
+            res.put("code", 2001);
+            res.put("message", "手机号码尚未注册");
+            res.put("data", userPhone);
+            return res;
         }
+
         // 检查密码
         boolean isPasswordOK = BCrypt.checkpw(userPassword, byUserPhone.getUserPassword());
         if (!isPasswordOK) {
-            res1.put("code", 2002);
-            res1.put("message", "密码错误");
-            res1.put("data", userPhone);
-            return res1;
+            res.put("code", 2002);
+            res.put("message", "密码错误");
+            res.put("data", userPhone);
+            return res;
         }
 
         // 手机号 密码 正确
         session.setAttribute("userPhone", byUserPhone.getUserPhone());
         session.setAttribute("userId", byUserPhone.getId());
-        String id = session.getId();
-        res1.put("code", 200);
-        res1.put("message", "登录成功");
-        res1.put("data", null);
-        return res1;
+        String session_id = session.getId();
+        System.out.println(session_id);
+        System.out.println(session.getAttribute("userId"));
+        res.put("code", 200);
+        res.put("message", "登录成功");
+        res.put("data", null);
+        res.put("userid", byUserPhone.getId());
+
+        // 设置 Cookie
+        Cookie sessionCookie = new Cookie("JSESSIONID", session.getId());
+        sessionCookie.setPath("/");
+        sessionCookie.setHttpOnly(true);
+        response.addCookie(sessionCookie);
+
+        return res;
     }
 }
-
-
-
