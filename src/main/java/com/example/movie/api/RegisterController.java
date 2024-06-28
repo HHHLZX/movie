@@ -2,7 +2,6 @@ package com.example.movie.api;
 
 import com.example.movie.entity.User;
 import com.example.movie.repository.UserRepository;
-
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -112,4 +112,13 @@ public class MovieController {
         this.movieRepository.save(movie);
         return "redirect:/movie/index";
     }
+
+    @GetMapping("/movie/list")
+    public String detail(
+            @RequestParam int id,
+            Model model
+    ) {
+
+        return "/movie/list";
+    }
 }
