@@ -10,11 +10,9 @@ public class ExampleApiController {
     @GetMapping("/abc")
     public HashMap<String, String> hi() {
         HashMap<String, String> userInfo = new HashMap<String, String>();
-
         userInfo.put("userName", "ZhangSan");
         userInfo.put("userAge", "18");
         userInfo.put("useSex", "man");
-
         return userInfo;
     }
 }

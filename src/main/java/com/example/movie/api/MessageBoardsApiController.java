@@ -24,7 +24,7 @@ public class MessageBoardsApiController {
             @RequestParam String content,
             HttpSession session
     ) {
-        
+
         Integer userId = (Integer) session.getAttribute("userId");
         String s_id = session.getId();
 
@@ -38,14 +38,11 @@ public class MessageBoardsApiController {
             res.put("data", null);
             return res;
         }
-
         MessageBoards messageBoards = new MessageBoards();
         messageBoards.setUserId(userId);
         messageBoards.setContent(content);
         messageBoards.setCreateDateTime(LocalDateTime.now());
-
         this.messageBoardsRepository.save(messageBoards);
-
         res.put("code", 0);
         res.put("message", "success");
         res.put("data", null);
@@ -56,7 +53,6 @@ public class MessageBoardsApiController {
     @GetMapping("/api/messageBoards/index")
     public HashMap<String, Object> index() {
         List<MessageBoards> all = this.messageBoardsRepository.findAll();
-
         HashMap<String, Object> res = new HashMap<>();
         res.put("code", 0);
         res.put("message", "success");
